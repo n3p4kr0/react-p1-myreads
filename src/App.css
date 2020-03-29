@@ -16,3 +16,9 @@
   width: 20%;
   margin: auto;
 }
+
+.book-image {
+  width: 140px;
+  height: 200px;
+  background: red;
+}

@@ -11,10 +11,10 @@ class Bookshelf extends Component {
 
         return (
             <div className="bookshelf">
-                <div class="bookshelf-name">Bookshelf's name</div>
+                <div class="bookshelf-name">{this.props.name}</div>
                 <div class="bookshelf-books">
-                    { books.map( (book) => ( <Book book={book} /> )) }    
-                </div>     
+                    { books.map( (book) => ( <Book book={book} bookshelfs={this.props.bookshelfs} /> )) }    
+                </div>
             </div>
         )
     }
