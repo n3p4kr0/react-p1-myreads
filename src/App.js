@@ -1,19 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Bookshelf from './Bookshelf.js';
 
-const bookshelfs = [
-  { name: "Currently Reading" },
-  { name: "Want to read" },
-  { name: "Read" },
-];
+class App extends Component {
+  state = {
+    bookshelfs: [
+      { name: "Currently Reading" },
+      { name: "Want to read" },
+      { name: "Read" }
+    ]
+  }
 
-function App() {
-  return (
-    <div className="App">
-      { bookshelfs.map( (bookshelf) => (<Bookshelf name={bookshelf.name} bookshelfs={bookshelfs} />) ) }
-    </div>
-  );
+
+  render() {
+    return (
+      <div className="App">
+        { this.state.bookshelfs.map( (bookshelf) => (
+          <Bookshelf  key={bookshelf.name} name={bookshelf.name} bookshelfs={this.state.bookshelfs} />
+        ))}
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,11 +1,13 @@
 .bookshelf {
   max-width: 90%;
   margin: auto;
+  margin-bottom: 20px;
 }
 
 .bookshelf-name {
   font-size: 2em;
   border-bottom: 2px solid lightgray;
+  margin-bottom: 20px;
 }
 
 .bookshelf-books {
