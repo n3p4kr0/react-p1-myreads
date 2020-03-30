@@ -32,7 +32,12 @@ header {
 }
 
 .book-image {
-  width: 140px;
-  height: 200px;
+  width: 128px;
+  height: 170px;
   background: red;
+}
+
+.book-author {
+  font-weight: lighter;
+  color: #5D5D5D;
 }

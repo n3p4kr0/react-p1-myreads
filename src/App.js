@@ -34,6 +34,7 @@ class App extends Component {
     });
 
     this.setState(stateCopy);
+    this.forceUpdate();
   }
 
   render() {
@@ -43,12 +44,13 @@ class App extends Component {
           <header>MyBooks</header>
           { this.state.bookshelfs.map( (bookshelf) => (
             <Bookshelf 
-            books={this.state.books.filter((book) => { return book.shelf === bookshelf.id })} 
-            key={bookshelf.id} 
-            id={bookshelf.id} 
-            name={bookshelf.name} 
-            bookshelfs={this.state.bookshelfs}
-            handleChangeBookshelf={ this.handleChangeBookshelf } />
+              //books={this.state.books.filter((book) => { return book.shelf === bookshelf.id })} 
+              books={this.state.books}
+              key={bookshelf.id} 
+              id={bookshelf.id} 
+              name={bookshelf.name} 
+              bookshelfs={this.state.bookshelfs}
+              handleChangeBookshelf={ this.handleChangeBookshelf } />
           ))}
         </div>
       );
