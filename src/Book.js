@@ -32,10 +32,10 @@ class Book extends Component {
         const { book, bookshelfs } = this.props;
         return (
             <div className="book-item">
-                <div className="book-image"><img href={this.state.book.imageLinks.smallThumbnail} /></div>  
+                <div className="book-image"><img href={this.state.book.imageLinks.smallThumbnail} alt={this.state.book.title} /></div>  
                 <div className="book-title"> <b>{book.title}</b> </div>  
                 <div className="book-author"> { book.authors.toString() } </div>  
-                <select name="book-select-bookshelf" value={this.state.selectedBookshelf} onChange={this.handleChangeBookshelf}>
+                <select name="book-select-bookshelf" defaultValue={this.state.book.shelf} onChange={this.handleChangeBookshelf}>
                     { bookshelfs.map( (bookshelf) => (<option key={bookshelf.id} value={bookshelf.id}>{bookshelf.name}</option>) ) }
                 </select>          
             </div>

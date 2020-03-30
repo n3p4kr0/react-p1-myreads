@@ -18,6 +18,7 @@ class Bookshelf extends Component {
             if(book.id === bookId) {
                 book.shelf = newBookshelf;
             }
+            return true;
         });
 
         this.setState(stateCopy);
@@ -39,6 +40,7 @@ class Bookshelf extends Component {
                             bookshelfs={this.props.bookshelfs} 
                             handleChangeBookshelf={ this.handleChangeBookshelf } /> )
                         }
+                        return true;
                     })}    
                 </div>
             </div>

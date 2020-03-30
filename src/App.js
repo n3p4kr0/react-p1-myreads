@@ -31,6 +31,7 @@ class App extends Component {
       if(book.id === bookId) {
         book.shelf = newBookshelf;
       }
+      return true;
     });
 
     this.setState(stateCopy);
