@@ -2,14 +2,7 @@ import React, { Component } from 'react'
 import Book from './Book.js';
 
 class Bookshelf extends Component {
-    /*state = {
-        books: [
-            { title: 'Book 1', author: 'Test' },
-            { title: 'Book 2', author: 'Test' },
-            { title: 'Book 3', author: 'Test' },
-        ]
-    }*/
-
+    
     componentDidMount() {
         this.setState( { books: this.props.books } )
     }

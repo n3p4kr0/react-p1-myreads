@@ -40,6 +40,7 @@ class App extends Component {
     if(this.state.isLoaded) {
       return (
         <div className="App">
+          <header>MyBooks</header>
           { this.state.bookshelfs.map( (bookshelf) => (
             <Bookshelf 
             books={this.state.books.filter((book) => { return book.shelf === bookshelf.id })} 
