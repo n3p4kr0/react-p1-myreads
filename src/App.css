@@ -27,8 +27,14 @@ header {
 }
 
 .book-item {
-  width: 20%;
+  /**width: 20%;
+  max-width: 20%;*/
   margin: auto;
+  flex-basis: 22%;
+}
+
+.book-title, .book-author, .book-image {
+  text-align: center;
 }
 
 .book-image img{
@@ -39,10 +45,19 @@ header {
 .book-author {
   font-weight: lighter;
   color: #5D5D5D;
+  text-align: center;
 }
 
 .btn-search {
   width: 100px;
   height: 60px;
+  margin: auto;
+}
+
+.search-results {
+  width: 90%;
+  max-width: 90%;
+  display: flex;
+  flex-wrap: wrap;
   margin: auto;
 }

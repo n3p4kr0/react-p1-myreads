@@ -36,7 +36,6 @@ class App extends Component {
     });
 
     this.setState(stateCopy);
-    this.forceUpdate();
   }
 
   render() {
