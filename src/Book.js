@@ -24,7 +24,7 @@ class Book extends Component {
                 shelf: this.state.selectedBookshelf
             }
         }));
-
+        console.log(this.state.book.id);
         this.props.handleChangeBookshelf(this.state.book.id, event.target.value);
     }
 

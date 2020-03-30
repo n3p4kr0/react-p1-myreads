@@ -41,3 +41,9 @@ header {
   font-weight: lighter;
   color: #5D5D5D;
 }
+
+.btn-search {
+  width: 100px;
+  height: 60px;
+  margin: auto;
+}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Bookshelf from './Bookshelf.js';
 import * as BooksAPI from './utils/BooksAPI.js'
+import { Link } from 'react-router-dom';
+import Home from './Home.js';
 
 class App extends Component {
   state = {
@@ -26,7 +27,7 @@ class App extends Component {
 
   handleChangeBookshelf = (bookId, newBookshelf) => {
     var stateCopy = Object.assign({}, this.state);
-    console.log(bookId);
+    //console.log(bookId);
     stateCopy.books.map( (book) => {
       if(book.id === bookId) {
         book.shelf = newBookshelf;
@@ -40,21 +41,11 @@ class App extends Component {
 
   render() {
     if(this.state.isLoaded) {
-      return (
-        <div className="App">
-          <header>MyBooks</header>
-          { this.state.bookshelfs.map( (bookshelf) => (
-            <Bookshelf 
-              //books={this.state.books.filter((book) => { return book.shelf === bookshelf.id })} 
-              books={this.state.books}
-              key={bookshelf.id} 
-              id={bookshelf.id} 
-              name={bookshelf.name} 
-              bookshelfs={this.state.bookshelfs}
-              handleChangeBookshelf={ this.handleChangeBookshelf } />
-          ))}
-        </div>
-      );
+      return ( 
+      <div className="App">
+        <header>MyBooks</header>
+        <Home books={this.state.books} bookshelfs={this.state.bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
+      </div>)
     }
     else {
       return (<p>Loading...</p>);
