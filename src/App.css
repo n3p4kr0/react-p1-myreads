@@ -31,10 +31,9 @@ header {
   margin: auto;
 }
 
-.book-image {
-  width: 128px;
-  height: 170px;
-  background: red;
+.book-image img{
+  max-width: 128px;
+  max-height: 170px;
 }
 
 .book-author {

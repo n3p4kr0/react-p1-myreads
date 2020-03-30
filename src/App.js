@@ -3,6 +3,7 @@ import './App.css';
 import * as BooksAPI from './utils/BooksAPI.js'
 import { Link, Route } from 'react-router-dom';
 import Home from './Home.js';
+import Search from './Search.js';
 
 class App extends Component {
   state = {
@@ -27,7 +28,6 @@ class App extends Component {
 
   handleChangeBookshelf = (bookId, newBookshelf) => {
     var stateCopy = Object.assign({}, this.state);
-    //console.log(bookId);
     stateCopy.books.map( (book) => {
       if(book.id === bookId) {
         book.shelf = newBookshelf;
@@ -51,7 +51,10 @@ class App extends Component {
             </div>
           )} />
           <Route exact path='/search' render={() => (
-            <p>Search page : <Link to="/">Return to home</Link></p>
+            <div className="search">
+              <Search bookshelfs={this.state.bookshelfs} />
+              <p>Search page : <Link to="/">Return to home</Link></p>
+            </div>
           )} />
         </div>
       )
