@@ -12,22 +12,15 @@ class Search extends Component {
     handleChange = (event) => {
         this.setState({query: event.target.value});
 
-        /*BooksAPI.search(this.state.query)
-          .then((result) => {
-            this.setState(() => ({
-              queriedBooks: result
-            }));
-          })
-          .catch((error) => {
-              console.log(error);
-          })*/
-          BooksAPI.search("Android")
-          .then((result) => {
-            console.log(result);
-            this.setState(() => ({
-              queriedBooks: result
-            }));
-          })
+        BooksAPI.search("Android")
+        .then((result) => {
+          console.log(result);
+          this.setState(() => ({
+            queriedBooks: result
+          }));
+        })
+
+        
     }
 
     render() {
@@ -40,8 +33,8 @@ class Search extends Component {
                         key={book.id}
                         book={book} 
                         //currentBookshelf={this.props.name} 
-                        bookshelfs={this.props.bookshelfs} />
-                        //handleChangeBookshelf={ this.props.handleChangeBookshelf } 
+                        bookshelfs={this.props.bookshelfs} 
+                        handleChangeBookshelf={ this.props.handleChangeBookshelf } />
                     ))}
                 </div>
             </div>

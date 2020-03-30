@@ -32,14 +32,21 @@ class Book extends Component {
         const { book, bookshelfs } = this.props;
         return (
             <div className="book-item">
-                <div className="book-image"><img src={this.state.book.imageLinks.smallThumbnail} alt={this.state.book.title} /></div>  
+                <div className="book-image">
+                    {this.state.book.hasOwnProperty('imageLinks') 
+                    ? <img src={this.state.book.imageLinks.smallThumbnail} alt={this.state.book.title} />
+                    : <img src={"../public/gray.jpg"} alt={this.state.book.title} />}
+                </div>  
                 <div className="book-title"> <b>{book.title}</b> </div>  
-                <div className="book-author"> { book.authors/*.toString()*/ } </div>  
-                {this.props.currentBookshelf !== null && 
-                    <select name="book-select-bookshelf" defaultValue={this.state.book.shelf} onChange={this.handleChangeBookshelf}>
-                        { bookshelfs.map( (bookshelf) => (<option key={bookshelf.id} value={bookshelf.id}>{bookshelf.name}</option>) ) }
-                    </select>
-                }
+                <div className="book-author">
+                    {this.state.book.hasOwnProperty('authors') 
+                    ? book.authors.toString()
+                    : "Author unknown" }
+                </div>   
+                
+                <select name="book-select-bookshelf" defaultValue={this.state.book.shelf} onChange={this.handleChangeBookshelf}>
+                    { bookshelfs.map( (bookshelf) => (<option key={bookshelf.id} value={bookshelf.id}>{bookshelf.name}</option>) ) }
+                </select>
             </div>
         )
     }

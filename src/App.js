@@ -28,6 +28,18 @@ class App extends Component {
 
   handleChangeBookshelf = (bookId, newBookshelf) => {
     var stateCopy = Object.assign({}, this.state);
+
+    if(stateCopy.books.filter( (book) => { return book.id === bookId } ).length === 0) {
+      var newBook = {};
+      
+      BooksAPI.get(bookId)
+      .then((result) => {
+        newBook = result;
+      });
+
+      stateCopy[stateCopy.length -1] = newBook;
+    }
+
     stateCopy.books.map( (book) => {
       if(book.id === bookId) {
         book.shelf = newBookshelf;
@@ -41,7 +53,9 @@ class App extends Component {
       .then((response) => {
         console.log(response);
         console.log("Updated !");
-      })
+      });
+
+    this.forceUpdate();
   }
 
   render() {
@@ -57,7 +71,7 @@ class App extends Component {
           )} />
           <Route exact path='/search' render={() => (
             <div className="search">
-              <Search bookshelfs={this.state.bookshelfs} />
+              <Search bookshelfs={this.state.bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} books={this.state.books} />
               <p>Search page : <Link to="/">Return to home</Link></p>
             </div>
           )} />
