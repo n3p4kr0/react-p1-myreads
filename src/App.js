@@ -36,6 +36,12 @@ class App extends Component {
     });
 
     this.setState(stateCopy);
+
+    BooksAPI.update({ id: bookId }, newBookshelf)
+      .then((response) => {
+        console.log(response);
+        console.log("Updated !");
+      })
   }
 
   render() {
