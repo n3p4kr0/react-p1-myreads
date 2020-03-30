@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as BooksAPI from './utils/BooksAPI.js'
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import Home from './Home.js';
 
 class App extends Component {
@@ -41,15 +41,22 @@ class App extends Component {
 
   render() {
     if(this.state.isLoaded) {
-      return ( 
-      <div className="App">
-        <header>MyBooks</header>
-        <Home books={this.state.books} bookshelfs={this.state.bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
-      </div>)
+      return (
+        <div className="App">
+          <header>MyBooks</header>
+          <Route exact path='/' render={() => (
+            <div className="home">
+              <Home books={this.state.books} bookshelfs={this.state.bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
+              <Link to="/search">Go to Search</Link>
+            </div>
+          )} />
+          <Route exact path='/search' render={() => (
+            <p>Search page : <Link to="/">Return to home</Link></p>
+          )} />
+        </div>
+      )
     }
-    else {
-      return (<p>Loading...</p>);
-    }
+    return (<p>"Loading"</p>);
   }
 }
 

@@ -14,9 +14,6 @@ class Home extends Component {
                 bookshelfs={this.props.bookshelfs}
                 handleChangeBookshelf={ this.props.handleChangeBookshelf } />
             ))}
-            <button className="btn-search" type="button">
-              Search
-            </button>
           </div>
        );
     }
