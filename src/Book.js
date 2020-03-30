@@ -45,6 +45,7 @@ class Book extends Component {
                 </div>   
                 
                 <select name="book-select-bookshelf" defaultValue={this.state.book.shelf} onChange={this.handleChangeBookshelf}>
+                    <option name="none" key="none" value="none">None</option>
                     { bookshelfs.map( (bookshelf) => (<option key={bookshelf.id} value={bookshelf.id}>{bookshelf.name}</option>) ) }
                 </select>
             </div>

@@ -15,6 +15,15 @@ class Search extends Component {
         BooksAPI.search("Android")
         .then((result) => {
           console.log(result);
+
+          result.map( (searchedBook) => {
+            var index = this.props.books.findIndex( (book) => { return book.id === searchedBook.id; });
+              if (index !== -1) {
+                  searchedBook.shelf = this.props.books[index].shelf;
+              };
+              return true;
+          });
+
           this.setState(() => ({
             queriedBooks: result
           }));
