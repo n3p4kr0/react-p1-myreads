@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as BooksAPI from './utils/BooksAPI.js';
 import Book from './Book.js';
 import { Input, FormControl } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 
 
@@ -75,15 +76,18 @@ class Search extends Component {
 
     render() {
         return (
-            <div className="search-module">                
-                <FormControl fullWidth className="search-input">
-                    <Input
-                        name="query"
-                        placeholder="Search by title or author"
-                        value={this.state.query}
-                        onChange={this.handleChange}
-                    />
-                </FormControl>
+            <div className="search-module">
+                <div className="search-form">
+                    <p>Type a query to search for new books or <Link to="/">return to homepage</Link></p>          
+                    <FormControl fullWidth className="search-input">
+                        <Input
+                            name="query"
+                            placeholder="Search by title or author"
+                            value={this.state.query}
+                            onChange={this.handleChange}
+                        />
+                    </FormControl>
+                </div>
                 { !this.state.loading
                  ? 
                     <div className="search-results">

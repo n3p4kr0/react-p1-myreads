@@ -72,14 +72,13 @@ class App extends Component {
           </AppBar>
           <Route exact path='/' render={() => (
             <div className="home">
+              <Link to="/search">Search for new books</Link>
               <Home books={this.state.books} bookshelfs={this.state.bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
-              <Link to="/search">Go to Search</Link>
             </div>
           )} />
           <Route exact path='/search' render={() => (
             <div className="search">
               <Search bookshelfs={this.state.bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} books={this.state.books} />
-              <p>Search page : <Link to="/">Return to home</Link></p>
             </div>
           )} />
         </div>
