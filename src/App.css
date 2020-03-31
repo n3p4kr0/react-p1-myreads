@@ -23,23 +23,49 @@ header {
 }
 
 .bookshelf-books {
-  display: flex;
+  /*display: flex;*/
+  width: 100%;
+  display: table;
+  table-layout: fixed;
 }
 
 .book-item {
   /**width: 20%;
   max-width: 20%;*/
   margin: auto;
-  flex-basis: 22%;
+  /*flex-basis: 22%;*/
+  width: 22%;
+  max-width: 22%;
+  min-width: 22%;
+  display: table-cell;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.book-infos {
+  margin-top: 20px;
 }
 
 .book-title, .book-author, .book-image {
   text-align: center;
 }
 
-.book-image img{
+.book-image {
+  position: relative;
+}
+
+.book-image, .book-image img{
   max-width: 128px;
   max-height: 170px;
+  width: 128px;
+  height: 170px;
+  margin: auto;
+}
+
+.book-menu-btn {
+  position: absolute;
+  bottom: -10px;
+  right: -20px;
 }
 
 .book-author {
@@ -54,10 +80,18 @@ header {
   margin: auto;
 }
 
+.icon-current-bookshelf {
+  min-width: 24px !important;
+}
+
 .search-results {
   width: 90%;
   max-width: 90%;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
+}
+
+.search-input {
+  padding: 0 30px 0 30px;
 }

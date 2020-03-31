@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import * as BooksAPI from './utils/BooksAPI.js';
 import Book from './Book.js';
+import { Input, FormControl } from '@material-ui/core';
+
 
 
 class Search extends Component {
@@ -28,14 +30,37 @@ class Search extends Component {
             queriedBooks: result
           }));
         })
-
-        
     }
+
+    handleChangeBookshelf = (bookId, newBookshelf) => {
+        var stateCopy = Object.assign({}, this.state);
+
+        console.log(stateCopy);
+
+        // On récupère l'index du Book actuellement modifié et on change le Bookshelf
+
+        stateCopy.queriedBooks.find( (book) => book.id === bookId ).shelf = newBookshelf;
+
+        // On passe à l'App pour qu'elle fasse les modifs nécessaires
+    
+        this.setState(stateCopy);
+
+        this.props.handleChangeBookshelf(bookId, newBookshelf);
+    
+        this.forceUpdate();
+      }
 
     render() {
         return (
-            <div className="search-module">
-                <input type="text" name="query" placeholder="Search by title or author" value={this.state.query} onChange={this.handleChange}></input>
+            <div className="search-module">                
+                <FormControl fullWidth className="search-input">
+                    <Input
+                        name="query"
+                        placeholder="Search by title or author"
+                        value={this.state.query}
+                        onChange={this.handleChange}
+                    />
+                </FormControl>
                 <div className="search-results">
                     {this.state.queriedBooks.map( (book) => (
                         <Book  
@@ -43,7 +68,7 @@ class Search extends Component {
                         book={book} 
                         //currentBookshelf={this.props.name} 
                         bookshelfs={this.props.bookshelfs} 
-                        handleChangeBookshelf={ this.props.handleChangeBookshelf } />
+                        handleChangeBookshelf={ this.handleChangeBookshelf } />
                     ))}
                 </div>
             </div>

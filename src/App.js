@@ -4,6 +4,7 @@ import * as BooksAPI from './utils/BooksAPI.js'
 import { Link, Route } from 'react-router-dom';
 import Home from './Home.js';
 import Search from './Search.js';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 
 class App extends Component {
   state = {
@@ -62,7 +63,13 @@ class App extends Component {
     if(this.state.isLoaded) {
       return (
         <div className="App">
-          <header>MyBooks</header>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h3">
+                MyReads
+              </Typography>
+            </Toolbar>
+          </AppBar>
           <Route exact path='/' render={() => (
             <div className="home">
               <Home books={this.state.books} bookshelfs={this.state.bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
