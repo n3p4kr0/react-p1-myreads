@@ -13,7 +13,6 @@ function Bookshelf(props) {
                         return ( <Book  
                         key={book.id} 
                         book={book} 
-                        currentBookshelf={name} 
                         bookshelfs={bookshelfs} 
                         handleChangeBookshelf={ props.handleChangeBookshelf } /> )
                     }

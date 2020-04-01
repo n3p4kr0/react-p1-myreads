@@ -18,11 +18,10 @@ class App extends Component {
     isLoaded: false
   }
 
+  /**
+   * When the app is launched, tries to load the user's book from the API
+   */
   componentDidMount() {
-    this.loadBooks();
-  }
-
-  loadBooks = () => {
     BooksAPI.getAll()
     .then((result) => {
       this.setState(() => ({
@@ -32,11 +31,14 @@ class App extends Component {
     })
   }
 
+  /**
+   * When a book is moved to a shelf, this handler function is called
+   */
   handleChangeBookshelf = (changedBook, newBookshelf) => {
+    // Adds the shelf to the book
     changedBook.shelf = newBookshelf;
 
-    console.log(changedBook);
-
+    // Updates the API
     BooksAPI.update({ id: changedBook.id }, newBookshelf)
     .then((response) => {
       this.setState(prevState => ({
@@ -44,8 +46,6 @@ class App extends Component {
           .filter(book => book.id !== changedBook.id)
           .concat(changedBook)
       }));
-
-      console.log(response);
     });
 
     this.forceUpdate();
@@ -54,6 +54,7 @@ class App extends Component {
   render() {
     const { books, bookshelfs } = this.state;
 
+    // The app only renders when the books have been loaded from the API
     if(this.state.isLoaded) {
       return (
         <div className="App">
@@ -64,20 +65,21 @@ class App extends Component {
               </Typography>
             </Toolbar>
           </AppBar>
-          <Route exact path='/' onChange={this.loadBooks} render={() => (
+          <Route exact path='/' render={() => (
             <div className="home">
               <Link to="/search">Search for new books</Link>
               <Home books={books} bookshelfs={bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
             </div>
           )} />
-          <Route exact path='/search' onChange={this.loadBooks} render={() => (
+          <Route exact path='/search' render={() => (
             <div className="search">
-              <Search bookshelfs={bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} books={books} />
+              <Search books={books} bookshelfs={bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
             </div>
           )} />
         </div>
       )
     }
+    // Shows a spin loader while the book infos have not been retrieved from the API
     return (<div className="loading"><Loader type="Circles" color="#57D312" height={80} width={80}/></div>);
   }
 }

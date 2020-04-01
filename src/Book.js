@@ -1,21 +1,20 @@
 import React, { Component } from 'react'
-import { Fab, ListItemIcon } from '@material-ui/core';
+import { Menu, MenuItem, Fab, ListItemIcon } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import AddIcon from '@material-ui/icons/Add';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import ImageUnfound from './gray.jpg';
 
 
 class Book extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedBookshelf: this.props.currentBookshelf,
             book: this.props.book,
             menuAnchorEl: null,
         };
     }
 
+    // Fires when the Floating Action Button (material-ui) is clicked
     handleOpenFAB = (event) => {
         var el = event.currentTarget;
         this.setState( (prevState) => ({
@@ -24,14 +23,15 @@ class Book extends Component {
         }));
     }
 
+    // Fires when the Floating Action Button is closed (by the user clicking on an item of the list or outside the modal)
     handleCloseFAB = (event) => {
-        console.log(event.currentTarget.dataset.valueShelf);
-
+        // We close the list
         this.setState( (prevState) => ({
             ...prevState,
             menuAnchorEl: null
         }));
         
+        // If the user has clicked on a list item THAT IS NOT the current selected item, we update the book shelf
         if(event.currentTarget.dataset.valueShelf !== undefined && event.currentTarget.dataset.valueShelf !== this.props.book.shelf) {
             this.props.handleChangeBookshelf(this.props.book, event.currentTarget.dataset.valueShelf);
             this.forceUpdate();
@@ -45,7 +45,7 @@ class Book extends Component {
                 <div className="book-image">
                     {book.hasOwnProperty('imageLinks') 
                     ? <img src={book.imageLinks.smallThumbnail} alt={book.title} />
-                    : <img src="/public/gray.jpg" alt={book.title} />}
+                    : <img src={ImageUnfound} alt={book.title} />}
                     <div className="book-menu-btn">
                         <Fab color="primary" size="small" onClick={this.handleOpenFAB}>
                             <AddIcon />
@@ -67,7 +67,7 @@ class Book extends Component {
                             </MenuItem>
                             { bookshelfs.map( (bookshelf) => 
                                 (<MenuItem key={bookshelf.id} onClick={this.handleCloseFAB} data-value-shelf={bookshelf.id}>
-                                    { bookshelf.id === this.state.book.shelf && (
+                                    { bookshelf.id === book.shelf && (
                                         <ListItemIcon className="icon-current-bookshelf">
                                             <ArrowRightIcon />
                                         </ListItemIcon>

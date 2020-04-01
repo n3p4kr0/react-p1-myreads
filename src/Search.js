@@ -21,14 +21,17 @@ class Search extends Component {
     }
 
     handleChange = (event) => {
+        // We save the user's query and set the module on "Loading Mode"
         this.setState({query: event.target.value, loading: true});
 
+        // TImeout management (the search is only done when the user has stopped typing (300ms))
         if(this.timeout) clearTimeout(this.timeout);
         
         this.timeout = setTimeout(() => {
             BooksAPI.search(this.state.query)
             .then((result) => {
-                if(result === undefined || result.error === "empty query") {
+                // If the query was empty or an error happens, we stop and empty the book list
+                if(result === undefined || result.hasOwnProperty("error")) {
                     this.setState( (prevState) => ({
                         ...prevState,
                         queriedBooks: []
@@ -36,6 +39,7 @@ class Search extends Component {
                     return;
                 }
 
+                // For each book found, we check if the user has already assigned it to a bookshelf
                 result.map( (searchedBook) => {
                     var index = this.props.books.findIndex( (book) => { return book.id === searchedBook.id; });
                     if (index !== -1) {
@@ -44,10 +48,10 @@ class Search extends Component {
                     return true;
                 });
 
-                this.setState(() => ({loading: false}));
-
+                // We leave the "Loading mode" and load the book list saved in the state
                 this.setState(() => ({
-                    queriedBooks: result,
+                    loading: false, 
+                    queriedBooks: result
                 }));
             })
         }, 300);       
