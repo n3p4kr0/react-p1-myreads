@@ -12,7 +12,9 @@ The app connects to an API (Internet connection is thus required for its use), a
 Installation is simple and can be done through npm or Yarn.
 
 `git clone https://github.com/sarah-maris/reactnd-project-myreads.git`
+
 `yarn install OR npm install`
+
 `yarn start OR npm start`
 
 It will then be accessible through [http://localhost:3000](http://localhost:3000) in the browser.
