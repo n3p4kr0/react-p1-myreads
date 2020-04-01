@@ -14,23 +14,6 @@ class Book extends Component {
             book: this.props.book,
             menuAnchorEl: null,
         };
-    
-        this.handleChangeBookshelf = this.handleChangeBookshelf.bind(this);
-    }
-
-    handleChangeBookshelf(newShelf) {
-
-        this.setState((prevState) => ({
-            ...prevState,
-            selectedBookshelf: newShelf,
-            book: {
-                ...prevState.book,
-                shelf: this.state.selectedBookshelf
-            }
-        }));
-        
-        console.log(this.state.book.id);
-        this.props.handleChangeBookshelf(this.state.book.id, newShelf);
     }
 
     handleOpenFAB = (event) => {
@@ -49,8 +32,8 @@ class Book extends Component {
             menuAnchorEl: null
         }));
         
-        if(event.currentTarget.dataset.valueShelf !== undefined) {
-            this.handleChangeBookshelf(event.currentTarget.dataset.valueShelf);
+        if(event.currentTarget.dataset.valueShelf !== undefined && event.currentTarget.dataset.valueShelf !== this.props.book.shelf) {
+            this.props.handleChangeBookshelf(this.props.book, event.currentTarget.dataset.valueShelf);
             this.forceUpdate();
         }
     };
@@ -60,9 +43,9 @@ class Book extends Component {
         return (
             <div className="book-item">
                 <div className="book-image">
-                    {this.state.book.hasOwnProperty('imageLinks') 
-                    ? <img src={this.state.book.imageLinks.smallThumbnail} alt={this.state.book.title} />
-                    : <img src={process.env.PUBLIC_URL + "/public/gray.jpg"} alt={this.state.book.title} />}
+                    {book.hasOwnProperty('imageLinks') 
+                    ? <img src={book.imageLinks.smallThumbnail} alt={book.title} />
+                    : <img src="/public/gray.jpg" alt={book.title} />}
                     <div className="book-menu-btn">
                         <Fab color="primary" size="small" onClick={this.handleOpenFAB}>
                             <AddIcon />
@@ -75,7 +58,7 @@ class Book extends Component {
                             onClose={this.handleCloseFAB}
                         >
                             <MenuItem name="none" key="none" data-value-shelf="none" onClick={this.handleCloseFAB}>
-                                { this.state.book.shelf === undefined && (
+                                { (book.shelf === undefined || book.shelf === "none") && (
                                     <ListItemIcon className="icon-current-bookshelf">
                                         <ArrowRightIcon />
                                     </ListItemIcon>
@@ -98,7 +81,7 @@ class Book extends Component {
                 <div className="book-infos">
                     <div className="book-title"><b>{book.title}</b></div>  
                     <div className="book-author">
-                        {this.state.book.hasOwnProperty('authors') 
+                        {book.hasOwnProperty('authors') 
                         ? book.authors.toString()
                         : "Author unknown" }
                     </div>   

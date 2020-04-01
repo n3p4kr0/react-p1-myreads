@@ -3,13 +3,12 @@ import * as BooksAPI from './utils/BooksAPI.js';
 import Book from './Book.js';
 import { Input, FormControl } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-
+import Loader from 'react-loader-spinner';
 
 
 class Search extends Component {
     constructor(props) {
         super(props);
-        this.error = '';
         this.timeout = 0;
 
         this.handleChange = this.handleChange.bind(this);
@@ -18,7 +17,6 @@ class Search extends Component {
     state = {
         query: '',
         queriedBooks: [],
-        typingTimeout: 0,
         loading: false
     }
 
@@ -30,15 +28,11 @@ class Search extends Component {
         this.timeout = setTimeout(() => {
             BooksAPI.search(this.state.query)
             .then((result) => {
-                this.setState(() => ({loading: false}));
-
-                if(result === undefined) {
-                    console.log('undefined result');
-                    return;
-                }
-
-                if(result.error === "empty query") {
-                    console.log('Empty query');
+                if(result === undefined || result.error === "empty query") {
+                    this.setState( (prevState) => ({
+                        ...prevState,
+                        queriedBooks: []
+                    }));
                     return;
                 }
 
@@ -50,35 +44,20 @@ class Search extends Component {
                     return true;
                 });
 
+                this.setState(() => ({loading: false}));
+
                 this.setState(() => ({
                     queriedBooks: result,
                 }));
             })
-        }, 300);
-
-       
+        }, 300);       
     }
-
-    handleChangeBookshelf = (bookId, newBookshelf) => {
-        var stateCopy = Object.assign({}, this.state);
-
-        // On récupère l'index du Book actuellement modifié et on change le Bookshelf
-        stateCopy.queriedBooks.find( (book) => book.id === bookId ).shelf = newBookshelf;
-
-        // On passe à l'App pour qu'elle fasse les modifs nécessaires
-    
-        this.setState(stateCopy);
-
-        this.props.handleChangeBookshelf(bookId, newBookshelf);
-    
-        this.forceUpdate();
-      }
 
     render() {
         return (
             <div className="search-module">
                 <div className="search-form">
-                    <p>Type a query to search for new books or <Link to="/">return to homepage</Link></p>          
+                    <p>Type a query to search for new books or <Link to="/">return to homepage</Link></p>
                     <FormControl fullWidth className="search-input">
                         <Input
                             name="query"
@@ -91,16 +70,18 @@ class Search extends Component {
                 { !this.state.loading
                  ? 
                     <div className="search-results">
-                        {this.state.queriedBooks.map( (book) => (
-                            <Book  
-                            key={book.id}
-                            book={book} 
-                            //currentBookshelf={this.props.name} 
-                            bookshelfs={this.props.bookshelfs} 
-                            handleChangeBookshelf={ this.handleChangeBookshelf } />
-                        ))}
+                        { this.state.queriedBooks.length > 0
+                            ? this.state.queriedBooks.map( (book) => (
+                                <Book  
+                                key={book.id}
+                                book={book} 
+                                bookshelfs={this.props.bookshelfs} 
+                                handleChangeBookshelf={ this.props.handleChangeBookshelf } />
+                            ))
+                            : <p>No books loaded at the moment</p>
+                        }
                     </div>
-                : <div>Loading...</div>
+                : <div className="loading"><Loader type="Circles" color="#57D312" height={80} width={80}/></div>
                 }
             </div>
         )

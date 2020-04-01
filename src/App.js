@@ -5,8 +5,9 @@ import { Link, Route } from 'react-router-dom';
 import Home from './Home.js';
 import Search from './Search.js';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import Loader from 'react-loader-spinner';
 
-class App extends Component {
+class App extends Component { 
   state = {
     bookshelfs: [
       { id: "currentlyReading", name: "Currently Reading" },
@@ -18,48 +19,41 @@ class App extends Component {
   }
 
   componentDidMount() {
-    BooksAPI.getAll()
-      .then((result) => {
-        this.setState(() => ({
-          books: result,
-          isLoaded: true
-        }));
-      })
+    this.loadBooks();
   }
 
-  handleChangeBookshelf = (bookId, newBookshelf) => {
-    var stateCopy = Object.assign({}, this.state);
+  loadBooks = () => {
+    BooksAPI.getAll()
+    .then((result) => {
+      this.setState(() => ({
+        books: result,
+        isLoaded: true
+      }));
+    })
+  }
 
-    if(stateCopy.books.filter( (book) => { return book.id === bookId } ).length === 0) {
-      var newBook = {};
-      
-      BooksAPI.get(bookId)
-      .then((result) => {
-        newBook = result;
-      });
+  handleChangeBookshelf = (changedBook, newBookshelf) => {
+    changedBook.shelf = newBookshelf;
 
-      stateCopy[stateCopy.length -1] = newBook;
-    }
+    console.log(changedBook);
 
-    stateCopy.books.map( (book) => {
-      if(book.id === bookId) {
-        book.shelf = newBookshelf;
-      }
-      return true;
+    BooksAPI.update({ id: changedBook.id }, newBookshelf)
+    .then((response) => {
+      this.setState(prevState => ({
+        books: prevState.books
+          .filter(book => book.id !== changedBook.id)
+          .concat(changedBook)
+      }));
+
+      console.log(response);
     });
-
-    this.setState(stateCopy);
-
-    BooksAPI.update({ id: bookId }, newBookshelf)
-      .then((response) => {
-        console.log(response);
-        console.log("Updated !");
-      });
 
     this.forceUpdate();
   }
 
   render() {
+    const { books, bookshelfs } = this.state;
+
     if(this.state.isLoaded) {
       return (
         <div className="App">
@@ -70,21 +64,21 @@ class App extends Component {
               </Typography>
             </Toolbar>
           </AppBar>
-          <Route exact path='/' render={() => (
+          <Route exact path='/' onChange={this.loadBooks} render={() => (
             <div className="home">
               <Link to="/search">Search for new books</Link>
-              <Home books={this.state.books} bookshelfs={this.state.bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
+              <Home books={books} bookshelfs={bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
             </div>
           )} />
-          <Route exact path='/search' render={() => (
+          <Route exact path='/search' onChange={this.loadBooks} render={() => (
             <div className="search">
-              <Search bookshelfs={this.state.bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} books={this.state.books} />
+              <Search bookshelfs={bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} books={books} />
             </div>
           )} />
         </div>
       )
     }
-    return (<p>"Loading"</p>);
+    return (<div className="loading"><Loader type="Circles" color="#57D312" height={80} width={80}/></div>);
   }
 }
 

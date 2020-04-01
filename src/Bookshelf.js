@@ -2,17 +2,19 @@ import React from 'react'
 import Book from './Book.js';
 
 function Bookshelf(props) {
+    const { name, id, books, bookshelfs } = props;
+
     return (
         <div className="bookshelf">
-            <div className="bookshelf-name">{props.name}</div>
+            <div className="bookshelf-name">{name}</div>
             <div className="bookshelf-books">
-                { props.books.map( (book) => {
-                    if(book.shelf === props.id ) {
+                { books.map( (book) => {
+                    if(book.shelf === id ) {
                         return ( <Book  
                         key={book.id} 
                         book={book} 
-                        currentBookshelf={props.name} 
-                        bookshelfs={props.bookshelfs} 
+                        currentBookshelf={name} 
+                        bookshelfs={bookshelfs} 
                         handleChangeBookshelf={ props.handleChangeBookshelf } /> )
                     }
                     return true;
