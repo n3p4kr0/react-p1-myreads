@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as BooksAPI from './utils/BooksAPI.js'
-import { Link, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Home from './Home.js';
 import Search from './Search.js';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
@@ -58,7 +58,7 @@ class App extends Component {
     if(this.state.isLoaded) {
       return (
         <div className="App">
-          <AppBar position="static">
+          <AppBar className="app-header" position="static">
             <Toolbar>
               <Typography variant="h3">
                 MyReads
@@ -67,7 +67,6 @@ class App extends Component {
           </AppBar>
           <Route exact path='/' render={() => (
             <div className="home">
-              <Link to="/search">Search for new books</Link>
               <Home books={books} bookshelfs={bookshelfs} handleChangeBookshelf={this.handleChangeBookshelf} />
             </div>
           )} />

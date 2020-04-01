@@ -4,6 +4,8 @@ import Book from './Book.js';
 import { Input, FormControl } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
+import CloseIcon from '@material-ui/icons/Close';
+import { Fab } from '@material-ui/core';
 
 
 class Search extends Component {
@@ -17,7 +19,8 @@ class Search extends Component {
     state = {
         query: '',
         queriedBooks: [],
-        loading: false
+        loading: false, 
+        info: "No books loaded at the moment."
     }
 
     handleChange = (event) => {
@@ -34,8 +37,11 @@ class Search extends Component {
                 if(result === undefined || result.hasOwnProperty("error")) {
                     this.setState( (prevState) => ({
                         ...prevState,
-                        queriedBooks: []
+                        loading: false,
+                        queriedBooks: [],
+                        info: "Impossible to load any book at the moment. Please try again later."
                     }));
+
                     return;
                 }
 
@@ -51,7 +57,8 @@ class Search extends Component {
                 // We leave the "Loading mode" and load the book list saved in the state
                 this.setState(() => ({
                     loading: false, 
-                    queriedBooks: result
+                    queriedBooks: result,
+                    info: ""
                 }));
             })
         }, 300);       
@@ -60,9 +67,14 @@ class Search extends Component {
     render() {
         return (
             <div className="search-module">
+                <div className="home-btn">
+                    <Fab color="secondary" component={Link} to="/">
+                        <CloseIcon />
+                    </Fab>
+                </div>
                 <div className="search-form">
-                    <p>Type a query to search for new books or <Link to="/">return to homepage</Link></p>
-                    <FormControl fullWidth className="search-input">
+                    <p>Type a query to search for new books :</p>
+                    <FormControl className="search-input">
                         <Input
                             name="query"
                             placeholder="Search by title or author"
@@ -82,7 +94,7 @@ class Search extends Component {
                                 bookshelfs={this.props.bookshelfs} 
                                 handleChangeBookshelf={ this.props.handleChangeBookshelf } />
                             ))
-                            : <p>No books loaded at the moment</p>
+                            : this.state.info
                         }
                     </div>
                 : <div className="loading"><Loader type="Circles" color="#57D312" height={80} width={80}/></div>
