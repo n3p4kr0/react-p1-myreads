@@ -35,11 +35,19 @@ class Search extends Component {
             .then((result) => {
                 // If the query was empty or an error happens, we stop and empty the book list
                 if(result === undefined || result.hasOwnProperty("error")) {
+                    let infoMsg = '';
+                    if(result.hasOwnProperty("error") && result.error === "empty query") {
+                        infoMsg = "Empty or invalid query. Please try again.";
+                    }
+                    else if (result === undefined) {
+                        infoMsg = "Impossible to load any book at the moment. Please try again later.";
+                    }
+
                     this.setState( (prevState) => ({
                         ...prevState,
                         loading: false,
                         queriedBooks: [],
-                        info: "Impossible to load any book at the moment. Please try again later."
+                        info: infoMsg
                     }));
 
                     return;
