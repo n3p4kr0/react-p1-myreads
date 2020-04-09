@@ -11,7 +11,7 @@ The app connects to an API (Internet connection is thus required for its use), a
 
 Installation is simple and can be done through npm or Yarn.
 
-`git clone https://github.com/sarah-maris/reactnd-project-myreads.git`
+`git clone https://github.com/FaremDev/react-p1-myreads.git`
 
 `yarn install OR npm install`
 
